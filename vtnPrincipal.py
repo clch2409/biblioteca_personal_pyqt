@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication,QMainWindow, QTableWidget, QTableWidgetItem, QDialog
+from PyQt6.QtWidgets import QApplication,QMainWindow, QTableWidget, QTableWidgetItem, QDialog, QMessageBox
 from PyQt6 import uic
 from dao.autorDAO import AutorDAO
 from dao.estadoLecturaDAO import EstadoLecturaDAO
@@ -45,15 +45,24 @@ class vtnPrincipal(QMainWindow):
       self.cmbGenero.addItem(genero, id)
 
   def obtenerDatos(self):
-    titulo = self.txtTitulo.text()
+    titulo = self.txtTitulo.text().strip()
+    if not titulo:
+      QMessageBox.warning(self, "Datos incompletos", "Ingresa el título del libro")
+      return
+
     autor = self.cmbAutor.currentData()
     genero = self.cmbGenero.currentData()
     pags = self.spnPagsLeidas.value()
     estado = self.cmbEstadoLectura.currentData()
 
     libro_creado = self.libroDao.crearLibro(titulo, genero, autor)
+    if libro_creado is None:
+      QMessageBox.critical(self, "Error", "No se pudo guardar el libro")
+      return
 
-    nueva_lectura = self.lecturaDao.crearNuevaLectura(libro_creado.id_libro, estado, pags)
+    if not self.lecturaDao.crearNuevaLectura(libro_creado.id_libro, estado, pags):
+      QMessageBox.critical(self, "Error", "No se pudo guardar la lectura")
+      return
 
     self.actualizarTabla()
 
