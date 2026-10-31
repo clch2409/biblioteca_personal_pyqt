@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>vtnRegistro</class>
- <widget class="QWidget" name="vtnRegistro">
+ <class>dialogRegistro</class>
+ <widget class="QDialog" name="dialogRegistro">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -36,10 +36,18 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLineEdit" name="txtContra"/>
+    <widget class="QLineEdit" name="txtContra">
+     <property name="echoMode">
+      <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
+    </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLineEdit" name="txtRepetir"/>
+    <widget class="QLineEdit" name="txtRepetir">
+     <property name="echoMode">
+      <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLineEdit" name="txtUsuario"/>

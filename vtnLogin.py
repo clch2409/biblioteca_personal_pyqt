@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6 import uic
 from dao.usuarioDAO import UsuarioDAO
 from db import DataBase
+from vtnRegistro import DialogRegistro
 
 class DialogLogin(QDialog):
     def __init__(self):
@@ -12,6 +13,7 @@ class DialogLogin(QDialog):
         self.db = DataBase()
         self.usuarioDao = UsuarioDAO(self.db)
         self.btnInicioSesion.clicked.connect(self.validarLogin)
+        self.lblRegistro.clicked.connect(self.irRegistro)
 
     def validarLogin(self):
         nombre = self.txtUsuario.text()
@@ -23,3 +25,7 @@ class DialogLogin(QDialog):
             self.accept() # Esto le dice a PyQt que el diálogo se cerró con éxito (True)
         else:
             QMessageBox.warning(self, "Credenciales Incorrectas", "Su usuario o contraseña son incorrectos")
+    
+    # def irRegistro(slef):
+    #     regitro = DialogRegistro()
+    #     if regitro.exec() == QDialog.DialogCode.Accepted:

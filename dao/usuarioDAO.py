@@ -65,4 +65,21 @@ class UsuarioDAO:
     finally:
       if conn is not None:
         conn.close()
+
+  def validarExistenciaUsuario(self, usuario):
+    conn = None
+    try:
+      conn = self.bd.conectar()
+      cursor = conn.cursor()
+      cursor.execute("SELECT * FROM usuario where nombre_usuario = %s", (usuario,))
+
+      usuario_array = cursor.fetchone()
+
+      return len(usuario_array) > 0
+    except MySQLError as e:
+      print(e)
+      return False
+    finally:
+      if conn is not None:
+        conn.close()
     

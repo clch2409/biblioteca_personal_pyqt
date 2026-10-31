@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dialogRegistro</class>
+ <widget class="QDialog" name="dialogRegistro">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>414</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <widget class="QLabel" name="lblContra">
+     <property name="text">
+      <string>Ingrese su Contraseña</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lblUsuario">
+     <property name="text">
+      <string>Ingrese su Nombre Usuario</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="lblRepetir">
+     <property name="text">
+      <string>Repita su Contraseña</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLineEdit" name="txtContra"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLineEdit" name="txtRepetir"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLineEdit" name="txtUsuario"/>
+   </item>
+   <item row="9" column="0">
+    <widget class="QPushButton" name="btnEnviar">
+     <property name="text">
+      <string>Enviar</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <italic>true</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Registro de Usuario</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

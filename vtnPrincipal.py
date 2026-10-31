@@ -8,6 +8,7 @@ from dao.libroDAO import LibroDAO
 from dao.lecturaDAO import LecturaDAO
 from db import DataBase
 from vtnLogin import DialogLogin
+from vtnRegistro import DialogRegistro
 
 
 class vtnPrincipal(QMainWindow):
@@ -88,7 +89,7 @@ class vtnPrincipal(QMainWindow):
 if __name__ == "__main__":
   app = QApplication(sys.argv)
 
-  login = DialogLogin()
+  login = DialogRegistro()
   if login.exec() == QDialog.DialogCode.Accepted:
     ventana_principal = vtnPrincipal()
     ventana_principal.show()

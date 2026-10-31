@@ -11,7 +11,7 @@ class DataBase:
     self.database = os.getenv("DATABASE")
     self.username = os.getenv("USER")
     self.password = os.getenv("DB_PASSWORD")
-    self.port = os.getenv("PORT")
+    self.port = int(os.getenv("PORT"))
 
   def conectar(self):
     return pymysql.connect(
