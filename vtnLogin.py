@@ -13,7 +13,7 @@ class DialogLogin(QDialog):
         self.db = DataBase()
         self.usuarioDao = UsuarioDAO(self.db)
         self.btnInicioSesion.clicked.connect(self.validarLogin)
-        self.lblRegistro.clicked.connect(self.irRegistro)
+        self.btnRegistro.clicked.connect(self.irRegistro)
 
     def validarLogin(self):
         nombre = self.txtUsuario.text()
@@ -26,6 +26,7 @@ class DialogLogin(QDialog):
         else:
             QMessageBox.warning(self, "Credenciales Incorrectas", "Su usuario o contraseña son incorrectos")
     
-    # def irRegistro(slef):
-    #     regitro = DialogRegistro()
-    #     if regitro.exec() == QDialog.DialogCode.Accepted:
+    def irRegistro(self):
+        registro = DialogRegistro()
+        if registro.exec() == QDialog.DialogCode.Accepted:
+            self.txtUsuario.setText(registro.usuario_registrado)

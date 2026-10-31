@@ -89,7 +89,7 @@ class vtnPrincipal(QMainWindow):
 if __name__ == "__main__":
   app = QApplication(sys.argv)
 
-  login = DialogRegistro()
+  login = DialogLogin()
   if login.exec() == QDialog.DialogCode.Accepted:
     ventana_principal = vtnPrincipal()
     ventana_principal.show()

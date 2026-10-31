@@ -20,8 +20,20 @@
    <property name="verticalSpacing">
     <number>16</number>
    </property>
-   <item row="3" column="3">
-    <spacer name="horizontalSpacer_4">
+   <item row="3" column="1">
+    <widget class="QLabel" name="lblContra">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Contraseña</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
@@ -32,38 +44,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="2" column="3">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>101</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="lblUsuario">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Usuario</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QLineEdit" name="txtContra">
-     <property name="echoMode">
-      <enum>QLineEdit::EchoMode::Password</enum>
-     </property>
-    </widget>
    </item>
    <item row="6" column="1">
     <spacer name="verticalSpacer">
@@ -91,6 +71,13 @@
      </property>
     </spacer>
    </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="txtContra">
+     <property name="echoMode">
+      <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
+    </widget>
+   </item>
    <item row="5" column="1" colspan="2">
     <widget class="QPushButton" name="btnInicioSesion">
      <property name="font">
@@ -103,17 +90,34 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="lblContra">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
-     <property name="text">
-      <string>Contraseña</string>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>101</width>
+       <height>20</height>
+      </size>
      </property>
-    </widget>
+    </spacer>
+   </item>
+   <item row="3" column="3">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="txtUsuario"/>
    </item>
    <item row="1" column="1" colspan="2">
     <widget class="QLabel" name="lblTitulo">
@@ -140,29 +144,25 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
-    <spacer name="horizontalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
+   <item row="2" column="1">
+    <widget class="QLabel" name="lblUsuario">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
+     <property name="text">
+      <string>Usuario</string>
      </property>
-    </spacer>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLineEdit" name="txtUsuario"/>
+    </widget>
    </item>
    <item row="4" column="1" colspan="2">
-    <widget class="QLabel" name="lblRegistro">
+    <widget class="QPushButton" name="btnRegistro">
      <property name="text">
       <string>No tengo cuenta</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dialogLogin</class>
- <widget class="QDialog" name="dialogLogin">
+ <class>dialogRegistro</class>
+ <widget class="QDialog" name="dialogRegistro">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -52,7 +52,11 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLineEdit" name="txtUsuario"/>
+    <widget class="QLineEdit" name="txtUsuario">
+     <property name="maxLength">
+      <number>30</number>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="lblUsuario">
