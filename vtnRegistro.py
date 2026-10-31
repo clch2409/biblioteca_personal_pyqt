@@ -14,6 +14,9 @@ class DialogRegistro(QDialog):
     self.usuario_registrado = ""
     self.btnEnviar.clicked.connect(self.validarRegistro)
     self.btnRegresar.clicked.connect(self.regresarLogin)
+    self.setTabOrder(self.txtUsuario, self.txtContra)
+    self.setTabOrder(self.txtContra, self.txtRepetir)
+    self.setTabOrder(self.txtRepetir, self.btnEnviar)
 
   def validarRegistro(self):
     nombre_usuario = str(self.txtUsuario.text()).strip()
@@ -40,7 +43,7 @@ class DialogRegistro(QDialog):
       QMessageBox.warning(self, "Error", "Hubo un error al crear el usuario")
 
   def regresarLogin(self):
-    self.reject();
+    self.reject()
 
 
     

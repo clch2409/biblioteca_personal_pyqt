@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication,QMainWindow, QTableWidget, QTableWidgetItem, QDialog, QMessageBox
+from PyQt6.QtWidgets import QApplication,QMainWindow, QTableWidgetItem, QDialog, QMessageBox, QHeaderView
 from PyQt6 import uic
 from dao.autorDAO import AutorDAO
 from dao.estadoLecturaDAO import EstadoLecturaDAO
@@ -23,15 +23,18 @@ class vtnPrincipal(QMainWindow):
     self.generoDao = GeneroDAO(self.db)
     self.libroDao = LibroDAO(self.db)
     self.lecturaDao = LecturaDAO(self.db)
-    self.llenarCombos()
-    self.btnEnviar.clicked.connect(self.obtenerDatos)
-    self.actualizarTabla()
+    self.llenarCombosHistorial()
+    self.btnEnviar.clicked.connect(self.obtenerDatosHistorial)
+    self.actualizarTablaHistorial()
+    self.actualizarTablaGeneros()
     self.stackedWidget.setCurrentIndex(0)
     self.btnLectura.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
     self.btnAutor.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
     self.btnGenero.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
+    self.tblLectura.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+    self.tblGenero.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-  def llenarCombos(self):
+  def llenarCombosHistorial(self):
     nombresAutores = [(a.id_autor, a.nombre_autor) for a in self.autorDao.listarAutores()]
     nombresEstadosLecturas = [(e.id_estado_lectura, e.nombre_estado) for e in self.estadoLecturaDao.listarEstadosLectura()]
     nombresGeneros = [(g.id_genero, g.nombre_genero) for g in self.generoDao.listarGeneros()]
@@ -45,7 +48,7 @@ class vtnPrincipal(QMainWindow):
     for id, genero in nombresGeneros:
       self.cmbGenero.addItem(genero, id)
 
-  def obtenerDatos(self):
+  def obtenerDatosHistorial(self):
     titulo = self.txtTitulo.text().strip()
     if not titulo:
       QMessageBox.warning(self, "Datos incompletos", "Ingresa el título del libro")
@@ -67,7 +70,7 @@ class vtnPrincipal(QMainWindow):
 
     self.actualizarTabla()
 
-  def actualizarTabla(self):
+  def actualizarTablaHistorial(self):
     historial = self.lecturaDao.obtenerHistorialLecturas()
 
     self.tblLectura.setColumnCount(5)
@@ -85,6 +88,23 @@ class vtnPrincipal(QMainWindow):
       for index_col, dato in enumerate(dato_list):
         item = QTableWidgetItem(str(dato))
         self.tblLectura.setItem(index_fila, index_col, item)
+
+  def actualizarTablaGeneros(self):
+    generos = self.generoDao.listarGeneros()
+
+    self.tblGenero.setColumnCount(2)
+    self.tblGenero.setHorizontalHeaderLabels(['ID', 'Nombre'])
+    self.tblGenero.setRowCount(len(generos))
+
+    for fila, genero in enumerate(generos):
+      dato = [
+        genero.id_genero,
+        genero.nombre_genero
+      ]
+
+      for columna, atributo in enumerate(dato):
+        item = QTableWidgetItem(str(atributo))
+        self.tblGenero.setItem(fila, columna, item) #Aquí el item es el atributo transformado en un item de tabla
 
 if __name__ == "__main__":
   app = QApplication(sys.argv)

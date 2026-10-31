@@ -14,6 +14,9 @@ class DialogLogin(QDialog):
         self.usuarioDao = UsuarioDAO(self.db)
         self.btnInicioSesion.clicked.connect(self.validarLogin)
         self.btnRegistro.clicked.connect(self.irRegistro)
+        self.setTabOrder(self.txtUsuario, self.txtContra)
+        self.setTabOrder(self.txtContra, self.btnInicioSesion)
+
 
     def validarLogin(self):
         nombre = self.txtUsuario.text()
@@ -30,3 +33,4 @@ class DialogLogin(QDialog):
         registro = DialogRegistro()
         if registro.exec() == QDialog.DialogCode.Accepted:
             self.txtUsuario.setText(registro.usuario_registrado)
+            self.txtContra.setFocus()
