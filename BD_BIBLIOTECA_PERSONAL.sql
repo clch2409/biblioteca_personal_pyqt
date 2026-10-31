@@ -4,7 +4,7 @@ USE biblioteca_personal;
 
 CREATE TABLE autor(
 	id_autor INT PRIMARY KEY AUTO_INCREMENT,
-	nombre_autor VARCHAR(30) NOT NULL UNIQUE,
+	nombre_autor VARCHAR(30) NOT NULL,
 	fecha_nacimiento DATE
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE lectura(
 
 CREATE TABLE usuario(
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-	nombre_usuario VARCHAR(30) NOT NULL,
+	nombre_usuario VARCHAR(30) NOT NULL UNIQUE,
 	contrasena VARCHAR(255) NOT NULL,
 	rol VARCHAR(10) NOT NULL DEFAULT 'admin'
 );

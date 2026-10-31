@@ -67,27 +67,3 @@ INSERT INTO lectura (id_libro, cant_paginas_leidas, id_estado_lectura) VALUES
 (14, 0, 1),
 (15, 158, 3),
 (16, 40, 4);
-
-/* ===== VERIFICACIÓN ===== */
-SELECT l.titulo_libro, a.nombre_autor, g.nombre_genero, le.cant_paginas_leidas, e.nombre_estado
-FROM lectura le
-JOIN libro l ON l.id_libro = le.id_libro
-JOIN autor a ON a.id_autor = l.id_autor
-JOIN genero g ON g.id_genero = l.id_genero
-JOIN estado_lectura e ON e.id_estado_lectura = le.id_estado_lectura;
-
-INSERT INTO libro (titulo_libro, id_genero, id_autor) VALUES('He pensado en Dejarlo', 6, 5);
-
-SELECT l.titulo_libro, a.nombre_autor, g.nombre_genero, le.cant_paginas_leidas , e.nombre_estado
-      FROM lectura le
-      JOIN estado_lectura e ON le.id_estado_lectura = e.id_estado_lectura
-      JOIN libro l ON l.id_libro = le.id_libro
-      JOIN genero g ON g.id_genero = l.id_genero
-      JOIN autor a ON a.id_autor = l.id_autor;
-
-
-insert into usuario(nombre_usuario, contrasena) values ("clch2409", "admin");
-
-select * from usuario;
-
-delete from usuario where id_usuario >= 1;
