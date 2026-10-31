@@ -75,7 +75,7 @@ class UsuarioDAO:
 
       usuario_array = cursor.fetchone()
 
-      return len(usuario_array) > 0
+      return usuario_array != None
     except MySQLError as e:
       print(e)
       return False
