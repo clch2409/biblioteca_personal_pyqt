@@ -14,8 +14,27 @@ class DialogRegistro(QDialog):
     self.btnEnviar.clicked.connect(self.validarRegistro)
 
   def validarRegistro(self):
-    nombre_usuario = self.txtUsuario.text()
+    nombre_usuario = str(self.txtUsuario.text()).strip()
+    contrasena = str(self.txtContra.text()).strip()
+    repetir = str(self.txtRepetir.text()).strip()
+    if (len(nombre_usuario) == 0 or len(contrasena) == 0 or len(repetir) == 0):
+      QMessageBox.warning(self, "Campos Obligatorios", "Todos los campos son obligatorios")
+      return  
+
     nombre_usuario_existe = self.usuariodao.validarExistenciaUsuario(nombre_usuario)
     if nombre_usuario_existe:
-      QMessageBox.warning("El nombre de usuario ya existe, elija otro", "Nombre de usuario Existente")
-      
+      QMessageBox.warning(self, "Nombre de usuario Existente", "El nombre de usuario ya existe, elija otro")
+      return
+
+    if (contrasena != repetir):
+      QMessageBox.warning(self, "Contraseñas Diferentes", "Las contraseñas ingresadas no coinciden")
+      return
+
+    if self.usuariodao.crearUsuario(nombre_usuario, contrasena):
+      QMessageBox.information(self, "Usuario Creado Correctamente", "El usuario se ha creado correctamente, pasará a la ventana de Login")
+      self.accept()
+    else:
+      QMessageBox.warning(self, "Error", "Hubo un error al crear el usuario")
+
+
+    
