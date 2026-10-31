@@ -1,5 +1,6 @@
 from db import DataBase
 from model.usuario import Usuario
+from pymysql.err import IntegrityError, MySQLError
 import bcrypt
 
 
@@ -10,56 +11,58 @@ class UsuarioDAO:
 
 
   def crearUsuario(self, nombre, contra: str):
-    conn = self.bd.conectar()
-    cursor = conn.cursor()
-    usuario_creado = ""
-
-    contrasena_ingresada_bytes = contra.encode('utf-8')
-    salt = bcrypt.gensalt()
-    contrasena_hash = bcrypt.hashpw(contrasena_ingresada_bytes, salt).decode('utf-8')
-
+    conn = None
     try:
+      conn = self.bd.conectar()
+      cursor = conn.cursor()
+      contrasena_ingresada_bytes = contra.encode('utf-8')
+      salt = bcrypt.gensalt()
+      contrasena_hash = bcrypt.hashpw(
+        contrasena_ingresada_bytes, salt
+      ).decode('utf-8')
       cursor.execute("""
             INSERT INTO usuario (nombre_usuario, contrasena)
-            OUTPUT INSERTED.*
-            VALUES (?, ?)
+            VALUES (%s, %s)
           """, (nombre, contrasena_hash))
-      usuario_array = cursor.fetchone()
-      usuario_creado = Usuario(usuario_array[0], usuario_array[1], usuario_array[2], usuario_array[3])
       conn.commit()
-    except Exception as e:
+      return True
+    except IntegrityError as e:
+      if conn is not None:
+        conn.rollback()
       print(e)
+      return False
+    except MySQLError as e:
+      if conn is not None:
+        conn.rollback()
+      print(e)
+      return False
     finally:
-      conn.close()
-
-    
-    return usuario_creado
+      if conn is not None:
+        conn.close()
 
   def validarLogin(self, nombre, contra: str):
-    conn = self.bd.conectar()
-    cursor = conn.cursor()
-    respuesta = 0
-
+    conn = None
     try:
-      cursor.execute("SELECT * FROM usuario WHERE nombre_usuario = ?", (nombre,))
+      conn = self.bd.conectar()
+      cursor = conn.cursor()
+      cursor.execute("SELECT * FROM usuario WHERE nombre_usuario = %s", (nombre,))
 
       usuario_array = cursor.fetchone()
 
       if (usuario_array):
-        usuario_encontrado= Usuario(usuario_array[0], usuario_array[1], usuario_array[2], usuario_array[3])
+        usuario_encontrado = Usuario(
+          usuario_array[0], usuario_array[1], usuario_array[2], usuario_array[3]
+        )
         contrasena_usuario = usuario_encontrado.contrasena.encode('utf-8')
         contrasena_ingresada = contra.encode('utf-8')
 
         if (bcrypt.checkpw(contrasena_ingresada, contrasena_usuario)):
-          respuesta = usuario_encontrado
-
-      conn.commit()
-    except InterruptedError as i:
-      print(i)
-    except Exception as e:
+          return usuario_encontrado
+      return 0
+    except MySQLError as e:
       print(e)
+      return 0
     finally:
-      conn.close()
-
-    return respuesta
+      if conn is not None:
+        conn.close()
     

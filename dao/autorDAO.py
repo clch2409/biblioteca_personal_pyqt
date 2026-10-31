@@ -1,5 +1,5 @@
 from db import DataBase
-from pyodbc import IntegrityError
+from pymysql.err import MySQLError
 from model.autor import Autor
 
 
@@ -9,17 +9,15 @@ class AutorDAO:
     self.db: DataBase = db
 
   def listarAutores(self):
-    conn = self.db.conectar()
-    cursor = conn.cursor()
-
+    conn = None
     try:
+      conn = self.db.conectar()
+      cursor = conn.cursor()
       cursor.execute("SELECT * FROM autor")
-    except IntegrityError as e:
+      return [Autor(a[0], a[1], a[2]) for a in cursor.fetchall()]
+    except MySQLError as e:
       print(e)
-
-    autores = [Autor(a[0], a[1], a[2]) for a in cursor.fetchall()]
-
-    
-    conn.commit()
-    conn.close()
-    return autores
+      return []
+    finally:
+      if conn is not None:
+        conn.close()

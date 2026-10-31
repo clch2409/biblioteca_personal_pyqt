@@ -1,5 +1,5 @@
 from db import DataBase
-from pyodbc import IntegrityError
+from pymysql.err import MySQLError
 from model.genero import Genero
 
 
@@ -9,16 +9,15 @@ class GeneroDAO:
     self.db: DataBase = db
 
   def listarGeneros(self):
-    conn = self.db.conectar()
-    cursor = conn.cursor()
-
+    conn = None
     try:
+      conn = self.db.conectar()
+      cursor = conn.cursor()
       cursor.execute("SELECT * FROM genero")
-    except IntegrityError as e:
+      return [Genero(g[0], g[1]) for g in cursor.fetchall()]
+    except MySQLError as e:
       print(e)
-
-    generos = [Genero(g[0], g[1]) for g in cursor.fetchall()]
-
-    conn.commit()
-    conn.close()
-    return generos
+      return []
+    finally:
+      if conn is not None:
+        conn.close()

@@ -1,5 +1,5 @@
 from db import DataBase
-from pyodbc import IntegrityError
+from pymysql.err import MySQLError
 from model.estado_lectura import EstadoLectura
 
 
@@ -9,16 +9,15 @@ class EstadoLecturaDAO:
     self.db: DataBase = db
 
   def listarEstadosLectura(self):
-    conn = self.db.conectar()
-    cursor = conn.cursor()
-
+    conn = None
     try:
+      conn = self.db.conectar()
+      cursor = conn.cursor()
       cursor.execute("SELECT * FROM estado_lectura")
-    except IntegrityError as e:
+      return [EstadoLectura(e[0], e[1]) for e in cursor.fetchall()]
+    except MySQLError as e:
       print(e)
-
-    estados = [EstadoLectura(e[0], e[1]) for e in cursor.fetchall()]
-
-    conn.commit()
-    conn.close()
-    return estados
+      return []
+    finally:
+      if conn is not None:
+        conn.close()

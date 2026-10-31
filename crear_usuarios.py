@@ -7,5 +7,5 @@ if __name__ == "__main__":
   # usuario1 = dao.crearUsuario("clch", "admin123")
   # print(usuario1)
   
-  usuarioLogin = dao.validarLogin("clch", "admin123")
+  usuarioLogin = dao.validarLogin("clch2409", "admin")
   print(usuarioLogin)

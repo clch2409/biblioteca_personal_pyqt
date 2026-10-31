@@ -1,5 +1,5 @@
 from db import DataBase
-from pyodbc import IntegrityError
+from pymysql.err import IntegrityError, MySQLError
 from model.libro import Libro
 
 class LibroDAO:
@@ -8,36 +8,43 @@ class LibroDAO:
     self.db: DataBase = db
 
   def listarLibros(self):
-    conn = self.db.conectar()
-    cursor = conn.cursor()
-
+    conn = None
     try:
+      conn = self.db.conectar()
+      cursor = conn.cursor()
       cursor.execute("SELECT * FROM libro")
-    except IntegrityError as e:
+      return [Libro(l[0], l[1], l[2], l[3]) for l in cursor.fetchall()]
+    except MySQLError as e:
       print(e)
-
-    libros = [Libro(l[0], l[1], l[2], l[3]) for l in cursor.fetchall()]
-
-    conn.commit()
-    conn.close()
-    return libros
+      return []
+    finally:
+      if conn is not None:
+        conn.close()
 
   def crearLibro(self, titulo_libro, id_genero, id_autor):
-    conn = self.db.conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("INSERT INTO libro (titulo_libro, id_genero, id_autor) OUTPUT INSERTED.* VALUES (?, ?, ?)", (titulo_libro, id_genero, id_autor))
-
-    libro = cursor.fetchone()
-    libro_creado = Libro(libro[0], libro[1], libro[2], libro[3])
-
-    conn.commit()
-    conn.close()
-
-    return libro_creado;
-
-
-
-    
-
+    conn = None
+    try:
+      conn = self.db.conectar()
+      cursor = conn.cursor()
+      cursor.execute(
+        "INSERT INTO libro (titulo_libro, id_genero, id_autor) "
+        "VALUES (%s, %s, %s)",
+        (titulo_libro, id_genero, id_autor)
+      )
+      libro_creado = Libro(cursor.lastrowid, titulo_libro, id_genero, id_autor)
+      conn.commit()
+      return libro_creado
+    except IntegrityError as e:
+      if conn is not None:
+        conn.rollback()
+      print(e)
+      return None
+    except MySQLError as e:
+      if conn is not None:
+        conn.rollback()
+      print(e)
+      return None
+    finally:
+      if conn is not None:
+        conn.close()
 

@@ -1,5 +1,4 @@
-USE biblioteca_personal
-GO
+USE biblioteca_personal;
 
 /* ===== AUTOR ===== */
 INSERT INTO autor (nombre_autor, fecha_nacimiento) VALUES
@@ -12,8 +11,7 @@ INSERT INTO autor (nombre_autor, fecha_nacimiento) VALUES
 ('Agatha Christie', '1890-09-15'),
 ('J.R.R. Tolkien', '1892-01-03'),
 ('Isaac Asimov', '1920-01-02'),
-('Ray Bradbury', '1920-08-22')
-GO
+('Ray Bradbury', '1920-08-22');
 
 /* ===== GENERO ===== */
 INSERT INTO genero (nombre_genero) VALUES
@@ -23,16 +21,14 @@ INSERT INTO genero (nombre_genero) VALUES
 ('Ciencia ficción'),
 ('Terror'),
 ('Misterio'),
-('Realismo mágico')
-GO
+('Realismo mágico');
 
 /* ===== ESTADO_LECTURA ===== */
 INSERT INTO estado_lectura (nombre_estado) VALUES
 ('Pendiente'),
 ('Leyendo'),
 ('Terminado'),
-('Abandonado')
-GO
+('Abandonado');
 
 /* ===== LIBRO (titulo, id_genero, id_autor) ===== */
 INSERT INTO libro (titulo_libro, id_genero, id_autor) VALUES
@@ -51,8 +47,7 @@ INSERT INTO libro (titulo_libro, id_genero, id_autor) VALUES
 ('El señor de los anillos', 3, 8),
 ('Fundación', 4, 9),
 ('Fahrenheit 451', 4, 10),
-('Crónicas marcianas', 4, 10)
-GO
+('Crónicas marcianas', 4, 10);
 
 /* ===== LECTURA (id_libro, cant_paginas_leidas, id_estado_lectura) ===== */
 INSERT INTO lectura (id_libro, cant_paginas_leidas, id_estado_lectura) VALUES
@@ -71,8 +66,7 @@ INSERT INTO lectura (id_libro, cant_paginas_leidas, id_estado_lectura) VALUES
 (13, 320, 2),
 (14, 0, 1),
 (15, 158, 3),
-(16, 40, 4)
-GO
+(16, 40, 4);
 
 /* ===== VERIFICACIÓN ===== */
 SELECT l.titulo_libro, a.nombre_autor, g.nombre_genero, le.cant_paginas_leidas, e.nombre_estado
@@ -80,19 +74,20 @@ FROM lectura le
 JOIN libro l ON l.id_libro = le.id_libro
 JOIN autor a ON a.id_autor = l.id_autor
 JOIN genero g ON g.id_genero = l.id_genero
-JOIN estado_lectura e ON e.id_estado_lectura = le.id_estado_lectura
-GO
+JOIN estado_lectura e ON e.id_estado_lectura = le.id_estado_lectura;
 
-INSERT INTO libro (titulo_libro, id_genero, id_autor) OUTPUT INSERTED.* VALUES('He pensado en Dejarlo', 6, 5)
-GO
+INSERT INTO libro (titulo_libro, id_genero, id_autor) VALUES('He pensado en Dejarlo', 6, 5);
 
 SELECT l.titulo_libro, a.nombre_autor, g.nombre_genero, le.cant_paginas_leidas , e.nombre_estado
       FROM lectura le
       JOIN estado_lectura e ON le.id_estado_lectura = e.id_estado_lectura
       JOIN libro l ON l.id_libro = le.id_libro
       JOIN genero g ON g.id_genero = l.id_genero
-      JOIN autor a ON a.id_autor = l.id_autor
-GO
+      JOIN autor a ON a.id_autor = l.id_autor;
 
-select * from usuario
-go
+
+insert into usuario(nombre_usuario, contrasena) values ("clch2409", "admin");
+
+select * from usuario;
+
+delete from usuario where id_usuario >= 1;
